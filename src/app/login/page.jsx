@@ -1,11 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default async function LoginUser() {
     let users;
 
+
+    const handleSubmit = async (e) =>{
+        
+            try{
+                const response = await fetch("http://localhost:3001/api/base/base-user-api",{
+                    method: "POST", 
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify(usuario)
+                })
+            }
+        
+    }
+
+
+    if(response.ok){
+        const result = response.json()
+        if(result.status == "ok"){
+            setMsg("Login efetuado com sucesso")
+            setTimeout(()=>{
+                setMsg("");
+            },5000
+            )
+        }
+    }
+    
+    
+    const [usuario, setUsuario] = useState(
+        {
+            email: "",
+            senha: ""
+        }
+    )
+
+    const  handleChange = (e) =>{
+
+    } 
+
     try{
         const response = await fetch("http://localhost:3001/api/base/base-user-api");
-        users = await response.json();
+        // users = await response.json();
         console.log();
     } catch {
         console.log(error)
@@ -18,11 +57,11 @@ export default async function LoginUser() {
                 <form action="">
                     <div>
                         <label htmlFor="idUser">Usuário:</label>
-                        <input type="text" name="usuario" id = "idUser" placeholder='Digite seu nome ou email'/>
+                        <input type="email" name="usuario" id = "idUser" value={usuario.email} placeholder='Digite seu nome ou email'/>
                         </div>
                     <div>
                         <label htmlFor="idPassword">Senha:</label>
-                        <input type="password"name="senha" id="idPassword"  placeholder='Digite sua senha'/>
+                        <input type="password"name="senha" id="idPassword" value={usuario.senha} placeholder='Digite sua senha'/>
                     </div>
                     <div>
                        <button>Entrar</button>
